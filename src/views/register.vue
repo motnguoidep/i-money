@@ -1,54 +1,32 @@
+<!-- eslint-disable prettier/prettier -->
 <template>
   <div class="mt-8">
     <div class="container mx-auto px-8">
       <!-- Start: Form -->
-      <form
-        class="flex flex-col justify-start space-y-6"
-        @submit.prevent="onSubmit"
-      >
+      <form class="flex flex-col justify-start space-y-6" @submit.prevent="onSubmit">
         <div class="row">
           <label class="flex flex-col" for="fullName">
             <span class="font-semibold">Full Name</span>
-            <input
-              id="fullName"
-              class="px-4 py-3 rounded-lg border-gray-100 mt-1"
-              type="text"
-              placeholder="Your name.."
-              v-model="fullName"
-            />
+            <input id="fullName" class="px-4 py-3 rounded-lg border-gray-100 mt-1" type="text" placeholder="Your name.."
+              v-model="fullName" />
           </label>
         </div>
         <div class="row">
           <label class="flex flex-col" for="email">
             <span class="font-semibold">Email Address</span>
-            <input
-              id="email"
-              class="px-4 py-3 rounded-lg border-gray-100 mt-1"
-              type="email"
-              placeholder="thuongngo09072003@gmail.com"
-              autocomplete="username"
-              v-model="email"
-            />
+            <input id="email" class="px-4 py-3 rounded-lg border-gray-100 mt-1" type="email"
+              placeholder="thuongngo09072003@gmail.com" autocomplete="username" v-model="email" />
           </label>
         </div>
         <div class="row">
           <label class="flex flex-col" for="password">
             <span class="font-semibold">Password</span>
-            <input
-              id="password"
-              class="px-4 py-3 rounded-lg border-gray-100 mt-1"
-              type="password"
-              placeholder="Example: Motnguoidep@"
-              autocomplete="current-password"
-              v-model="password"
-            />
+            <input id="password" class="px-4 py-3 rounded-lg border-gray-100 mt-1" type="password"
+              placeholder="Example: Motnguoidep@" autocomplete="current-password" v-model="password" />
           </label>
         </div>
         <div class="row">
-          <button
-            class="py-3 text-center w-full bg-primary text-white font-bold rounded-lg"
-            type="submit"
-          >
+          <button class="py-3 text-center w-full bg-primary text-white font-bold rounded-lg" type="submit">
             Sign Up
           </button>
         </div>
@@ -57,11 +35,7 @@
       <div class="w-full text-center mt-6">
         <span class="font-semibold">I'm already a member</span>
         <span class="ml-1">
-          <router-link
-            :to="{ name: 'Login', params: {} }"
-            class="text-primary font-bold"
-            >Sign In</router-link
-          >
+          <router-link :to="{ name: 'Login', params: {} }" class="text-primary font-bold">Sign In</router-link>
         </span>
       </div>
     </div>
@@ -70,18 +44,20 @@
 
 <script>
 import { ref } from "vue";
-import { useSignUp } from "@/composables/useSignUp";
+import { useSignUp } from "../composables/useSignUp";
 
 export default {
   setup() {
     const { error, isPending, signup } = useSignUp();
-    
+
     const fullName = ref("");
     const email = ref("");
     const password = ref("");
     async function onSubmit() {
       await signup(email.value, password.value);
+      // console.log({ fullName, email, password });
     }
+    // return { fullName, email, password, onSubmit };
     return { fullName, email, password, error, isPending, onSubmit };
   },
 };
