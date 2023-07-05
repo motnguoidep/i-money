@@ -70,16 +70,19 @@
 
 <script>
 import { ref } from "vue";
+import { useSignUp } from "@/composables/useSignUp";
+
 export default {
   setup() {
+    const { error, isPending, signup } = useSignUp();
+    
     const fullName = ref("");
     const email = ref("");
     const password = ref("");
-
-    function onSubmit() {
-      console.log({ fullName, email, password });
+    async function onSubmit() {
+      await signup(email.value, password.value);
     }
-    return { fullName, email, password, onSubmit };
+    return { fullName, email, password, error, isPending, onSubmit };
   },
 };
 </script>
