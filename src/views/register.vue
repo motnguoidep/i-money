@@ -46,13 +46,26 @@
         </div>
         <div class="row">
           <button
+            v-if="!isPending"
             class="py-3 text-center w-full bg-primary text-white font-bold rounded-lg"
             type="submit"
           >
             Sign Up
           </button>
+          <button
+            v-else
+            class="py-3 text-center w-full bg-gray-800 text-white font-bold rounded-lg cursor-not-allowed"
+            type="submit"
+            disabled
+          >
+            Loading..
+          </button>
         </div>
       </form>
+      <!-- Start: Error -->
+      <div v-if="error" class="text-left text-red mt-4">
+        <span>{{ error }}</span>
+      </div>
       <!-- Start: Direction -->
       <div class="w-full text-center mt-6">
         <span class="font-semibold">I'm already a member</span>
@@ -70,20 +83,24 @@
 
 <script>
 import { ref } from "vue";
-// import { useSignUp } from "@/composables/useSignUp";
+import { useRouter } from "vue-router";
+import { useSignUp } from "../composables/useSignUp";
+
 export default {
   setup() {
-    // const { error, isPending, signup } = useSignUp();
+    const { error, isPending, signup } = useSignUp();
+    const router = useRouter();
 
     const fullName = ref("");
     const email = ref("");
     const password = ref("");
     async function onSubmit() {
-      // await signup(email.value, password.value);
-      console.log({ fullName, email, password });
+      await signup(email.value, password.value, fullName.value);
+      if (!error.value) router.push({ name: "Profile", params: {} });
+      // console.log({ fullName, email, password });
     }
-    return { fullName, email, password, onSubmit };
-    // return { fullName, email, password, error,
+    // return { fullName, email, password, onSubmit };
+    return { fullName, email, password, error, isPending, onSubmit };
   },
 };
 </script>
